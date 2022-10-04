@@ -1,13 +1,11 @@
 package com.devesmee.womenseuro2022.ui.composables
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -17,14 +15,15 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.devesmee.womenseuro2022.R
-import com.devesmee.womenseuro2022.models.*
+import com.devesmee.womenseuro2022.models.Match
+import com.devesmee.womenseuro2022.models.Stadium
+import com.devesmee.womenseuro2022.models.TournamentStage
 import com.google.gson.Gson
 
 @Composable
 fun StadiumDetailView(
-    stadiumJSON: String,
+    stadiumJSON: String
 ) {
-    Log.e("stadiumJSON: ", stadiumJSON)
     val stadium = Gson().fromJson(stadiumJSON, Stadium::class.java)
     val groupStageMatches: List<Match> = remember {
         stadium.matches.filter { match -> match.tournamentStage == TournamentStage.GROUPSTAGE }

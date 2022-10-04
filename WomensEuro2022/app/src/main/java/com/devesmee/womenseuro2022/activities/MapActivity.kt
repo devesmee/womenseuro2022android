@@ -1,7 +1,6 @@
-package com.devesmee.womenseuro2022
+package com.devesmee.womenseuro2022.activities
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +14,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.osmdroid.config.Configuration
 
-class MainActivity : ComponentActivity() {
+class MapActivity : ComponentActivity() {
     lateinit var stadiums: List<Stadium>
     private val jsonString: String
         get() = applicationContext.assets.open("data.json").bufferedReader().use {
@@ -45,6 +44,5 @@ class MainActivity : ComponentActivity() {
     private fun getData(jsonString: String) {
         val stadiumListType = object : TypeToken<List<Stadium>>() {}.type
         stadiums = Gson().fromJson(jsonString, stadiumListType)
-        Log.e("stadiums: ", stadiums.toString())
     }
 }

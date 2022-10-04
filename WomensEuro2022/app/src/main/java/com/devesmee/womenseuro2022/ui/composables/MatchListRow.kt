@@ -1,7 +1,5 @@
 package com.devesmee.womenseuro2022.ui.composables
 
-import android.graphics.Paint.Align
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -20,15 +18,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.devesmee.womenseuro2022.R
-import com.devesmee.womenseuro2022.models.*
-import com.google.gson.Gson
+import com.devesmee.womenseuro2022.models.Countries
+import com.devesmee.womenseuro2022.models.Match
+import com.devesmee.womenseuro2022.models.TournamentStage
 
 @Composable
 fun MatchListRow(
     match: Match,
 ) {
-    Log.e("match: ", match.toString())
-
     Column(
         modifier = Modifier.padding(vertical = 10.dp)
     ) {

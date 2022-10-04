@@ -1,17 +1,16 @@
 package com.devesmee.womenseuro2022.ui.composables
 
-import android.content.res.Resources
-import android.graphics.*
+import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.util.Log
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toBitmap
@@ -23,14 +22,12 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.devesmee.womenseuro2022.R
+import com.devesmee.womenseuro2022.activities.StadiumActivity
 import com.devesmee.womenseuro2022.models.Stadium
 import com.google.gson.Gson
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.ItemizedIconOverlay
-import org.osmdroid.views.overlay.ItemizedOverlayWithFocus
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.overlay.OverlayItem
 
 @Composable
 fun MapView(
@@ -41,9 +38,7 @@ fun MapView(
     val navController = rememberNavController()
     val mapViewState = rememberMapViewWithLifecycle(
         stadiums = stadiums
-    ) { stadiumJSON ->
-        navController.navigate("stadiumDetailView/$stadiumJSON")
-    }
+    )
 
     NavHost(navController = navController, startDestination = "mapView") {
         composable("mapView") {
@@ -60,9 +55,10 @@ fun MapView(
             arguments = listOf(navArgument("stadiumJSON") { type = NavType.StringType })
         ) { backStackEntry ->
             backStackEntry.arguments?.getString("stadiumJSON")?.let { stadiumJSON ->
-                StadiumDetailView(
-                    stadiumJSON = stadiumJSON
-                )
+                val context = LocalContext.current
+                val intent = Intent(context, StadiumActivity::class.java)
+                intent.putExtra("stadium", stadiumJSON)
+                context.startActivity(intent)
             }
         }
     }
@@ -70,8 +66,7 @@ fun MapView(
 
 @Composable
 fun rememberMapViewWithLifecycle(
-    stadiums: List<Stadium>,
-    navigateToStadium: (stadium: String) -> Unit
+    stadiums: List<Stadium>
 ): MapView {
     val context = LocalContext.current
 
@@ -86,15 +81,14 @@ fun rememberMapViewWithLifecycle(
 
     for (stadium in stadiums) {
         val marker = Marker(mapView)
-        marker.icon = resizeLogo(logo = context.getDrawable(R.drawable.logo))
+        marker.icon = resizeLogo(logo = AppCompatResources.getDrawable(context, R.drawable.logo))
         marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         marker.position = GeoPoint(stadium.latitude, stadium.longitude)
         marker.infoWindow = null
         marker.setOnMarkerClickListener { _, _ ->
             val stadiumJSON = Gson().toJson(stadium)
-            Log.e("stadiumJSON: ", stadiumJSON)
-            //navigate to stadium detail view
-            navigateToStadium(stadiumJSON)
+            // navigate to stadium detail view
+            navigateToStadiums(stadiumJSON, context)
             true
         }
 
@@ -135,4 +129,10 @@ fun resizeLogo(logo: Drawable?): Drawable {
     val logoRoundedBitmap = logoRoundedDrawable.toBitmap(250,250)
 
     return BitmapDrawable(logoRoundedBitmap)
+}
+
+private fun navigateToStadiums(stadiumJSON: String, context: Context) {
+    val intent = Intent(context, StadiumActivity::class.java)
+    intent.putExtra("stadium", stadiumJSON)
+    context.startActivity(intent)
 }

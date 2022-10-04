@@ -3,8 +3,6 @@ package com.devesmee.womenseuro2022.ui.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,15 +12,11 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import com.devesmee.womenseuro2022.R
 import com.devesmee.womenseuro2022.models.Stadium
-import com.google.gson.Gson
 
 @Composable
 fun StadiumInfo(

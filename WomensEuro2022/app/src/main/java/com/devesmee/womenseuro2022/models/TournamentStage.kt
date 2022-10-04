@@ -2,13 +2,13 @@ package com.devesmee.womenseuro2022.models
 
 import com.google.gson.annotations.SerializedName
 
-enum class TournamentStage(val stage: String) {
+enum class TournamentStage() {
     @SerializedName("Group stage")
-    GROUPSTAGE("Group stage"),
+    GROUPSTAGE,
     @SerializedName("Quarter-finals")
-    QUARTERFINAL("Quarter-finals"),
+    QUARTERFINAL,
     @SerializedName("Semi final")
-    SEMIFINAL("Semi final"),
+    SEMIFINAL,
     @SerializedName("Final")
-    FINAL("Final")
+    FINAL
 }
