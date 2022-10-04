@@ -15,6 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.devesmee.womenseuro2022.R
+import com.devesmee.womenseuro2022.extensions.*
 import com.devesmee.womenseuro2022.models.Match
 import com.devesmee.womenseuro2022.models.Stadium
 import com.devesmee.womenseuro2022.models.TournamentStage
@@ -25,24 +26,13 @@ fun StadiumDetailView(
     stadiumJSON: String
 ) {
     val stadium = Gson().fromJson(stadiumJSON, Stadium::class.java)
-    val groupStageMatches: List<Match> = remember {
-        stadium.matches.filter { match -> match.tournamentStage == TournamentStage.GROUPSTAGE }
-    }
-    val quarterFinalMatches: List<Match> = remember {
-        stadium.matches.filter { match -> match.tournamentStage == TournamentStage.QUARTERFINAL }
-    }
-    val semiFinalMatches: List<Match> = remember {
-        stadium.matches.filter { match -> match.tournamentStage == TournamentStage.SEMIFINAL }
-    }
-    val finalMatches: List<Match> = remember {
-        stadium.matches.filter { match -> match.tournamentStage == TournamentStage.FINAL }
-    }
+    val matches = stadium.matches
 
     Column(
         modifier = Modifier.background(Color.Black)
     ) {
         StadiumInfo(stadium)
-        if (groupStageMatches.isNotEmpty()) {
+        if (matches.groupStage().isNotEmpty()) {
             Column {
                 Text(
                     text = "Group stage",
@@ -53,7 +43,7 @@ fun StadiumDetailView(
                 LazyColumn(
                     modifier = Modifier.background(colorResource(id = R.color.dark_purple))
                 ) {
-                    items(groupStageMatches) { match ->
+                    items(matches.groupStage()) { match ->
                         MatchListRow(match)
                         Divider(
                             color = Color.DarkGray,
@@ -63,7 +53,7 @@ fun StadiumDetailView(
                 }
             }
         }
-        if (quarterFinalMatches.isNotEmpty()) {
+        if (matches.quarterFinal().isNotEmpty()) {
             Column {
                 Text(
                     text = "Quarter-finals",
@@ -74,7 +64,7 @@ fun StadiumDetailView(
                 LazyColumn(
                     modifier = Modifier.background(colorResource(id = R.color.dark_purple))
                 ) {
-                    items(quarterFinalMatches) { match ->
+                    items(matches.quarterFinal()) { match ->
                         MatchListRow(match)
                         Divider(
                             color = Color.DarkGray,
@@ -84,7 +74,7 @@ fun StadiumDetailView(
                 }
             }
         }
-        if (semiFinalMatches.isNotEmpty()) {
+        if (matches.semiFinal().isNotEmpty()) {
             Column {
                 Text(
                     text = "Semi-finals",
@@ -95,7 +85,7 @@ fun StadiumDetailView(
                 LazyColumn(
                     modifier = Modifier.background(colorResource(id = R.color.dark_purple))
                 ) {
-                    items(semiFinalMatches) { match ->
+                    items(matches.semiFinal()) { match ->
                         MatchListRow(match)
                         Divider(
                             color = Color.DarkGray,
@@ -105,7 +95,7 @@ fun StadiumDetailView(
                 }
             }
         }
-        if (finalMatches.isNotEmpty()) {
+        if (matches.final().isNotEmpty()) {
             Column {
                 Text(
                     text = "Final",
@@ -116,7 +106,7 @@ fun StadiumDetailView(
                 LazyColumn(
                     modifier = Modifier.background(colorResource(id = R.color.dark_purple))
                 ) {
-                    items(finalMatches) { match ->
+                    items(matches.final()) { match ->
                         MatchListRow(match)
                         Divider(
                             color = Color.DarkGray,
